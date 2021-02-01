@@ -1,12 +1,8 @@
-
 import 'package:block_sample/module/search/search_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchBox extends StatefulWidget {
-  final SearchBloc bloc;
-
-  SearchBox({SearchBloc bloc}) : this.bloc = bloc;
-
   @override
   _SearchBoxState createState() => _SearchBoxState();
 }
@@ -18,23 +14,33 @@ class _SearchBoxState extends State<SearchBox> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    var bloc = Provider.of<SearchBloc>(context);
     searchController.addListener(() {
       var query = searchController.text;
-      widget.bloc.search(query);
+      bloc.search(query);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: TextFormField(
-        controller: searchController,
-        decoration: InputDecoration(
-            suffixIcon: Icon(Icons.search),
-            hintText: "Search...",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            )),
+    return Consumer<SearchBloc>(
+      builder: (context, bloc, child) => Container(
+        child: TextFormField(
+          controller: searchController,
+          decoration: InputDecoration(
+              suffixIcon: Icon(Icons.search),
+              hintText: "Search...",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              )),
+        ),
       ),
     );
   }

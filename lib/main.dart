@@ -1,3 +1,6 @@
+import 'package:block_sample/module/search/search_bloc.dart';
+import 'package:provider/provider.dart';
+
 import 'module/search/search_view.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +21,10 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: Text("Bloc Sample"),
           ),
-          body: SearchView()),
+          body: Provider<SearchBloc>.value(
+            value: SearchBloc(),
+            child: SearchView(),
+          )),
     );
   }
 }
